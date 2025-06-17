@@ -1,0 +1,3 @@
+Animation Control Methods:
+1) turtle.tracer(n) :- Takes a number as input. It turns the Animation on/off.
+2) turtle.update()  :- Perform a TurtleScreen update. To be used when tracer is turned off.

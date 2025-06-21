@@ -31,5 +31,9 @@ while game_on:
     if snake.head.distance(food) < 15:
         food.refresh()
         scoreboard.increase_score()
+    #To Detect colloison with wall
+    if snake.head.xcor() >295 or snake.head.xcor() < -295 or snake.head.ycor() >295 or snake.head.ycor() < -295:
+        game_on = False
+        scoreboard.game_over()
 
 screen.exitonclick()

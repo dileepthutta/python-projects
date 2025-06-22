@@ -6,4 +6,4 @@
 
 These are the basic projects build using the Python fundamentals.
 
-- * [Auction-project] (https://github.com/thuttadileep/Auction-project)
+- * [Auction-project] (https://github.com/dileepthutta/Auction-project)

@@ -20,6 +20,18 @@ while len(guessed_state) < 50:
     # To Create a pop-up box and User ask user-input.
     answer_state = screen.textinput(title=f"{len(guessed_state)}/50 States Correct",
                                     prompt="What's another state's name? ").title()
+
+    #If the user type exit then the game terminates and the missing data is saved into a file.
+    if answer_state == "Exit":
+        missing_data = []
+        for i in all_states:
+            if i not in guessed_state:
+                missing_data.append(i)
+        final_data = pd.DataFrame(missing_data)
+        final_data.to_csv('missing_data.csv')
+        break
+
+
     #Check's if the user-state is correct || not.
     if answer_state in all_states:
         guessed_state.append(answer_state)
@@ -30,7 +42,6 @@ while len(guessed_state) < 50:
         t.goto(state_data.x.item(),state_data.y.item())
         t.write(answer_state)
 screen.exitonclick()
-
 
 
 #Function to get the co-ordinate of x,y values of  the image onclick.

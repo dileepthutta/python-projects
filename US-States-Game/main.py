@@ -23,10 +23,7 @@ while len(guessed_state) < 50:
 
     #If the user type exit then the game terminates and the missing data is saved into a file.
     if answer_state == "Exit":
-        missing_data = []
-        for i in all_states:
-            if i not in guessed_state:
-                missing_data.append(i)
+        missing_data = [state for state in all_states if state not in guessed_state]
         final_data = pd.DataFrame(missing_data)
         final_data.to_csv('missing_data.csv')
         break

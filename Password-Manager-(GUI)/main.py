@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def add():
@@ -7,14 +8,24 @@ def add():
     email_data   = email_entry.get()
     password_data = password_entry.get()
 
-    #Creates and add the data into the File.
-    with open("data.txt",'a') as file:
-        file.write(f"{website_data}\t|{email_data}\t|{password_data}")
-        file.write('\n')
-    # Deletes the password in the window when you added into the File.
-    website_entry.delete(0,'end')
-    # email_entry.delete(0,'end')
-    password_entry.delete(0,'end')
+    #Check and return a popup button if any of the fields are Empty while saving the data.
+    if len(website_data)==0 or len(email_data)==0 or len(password_data)==0:
+        valid_or_not = messagebox.showinfo(title='Something went wrong!',message='Please don`t leave any fields empty!')
+
+    #Asks the user to save the data or not in the datafile.
+    else:
+        is_ok = messagebox.askokcancel(title=website_data,message=f"These are the details entered: \nEmail: {email_data}"
+                                       f"\nPassword: {password_data} \nIs it ok to save?")
+        if is_ok:
+            #Creates and add the data into the File.
+            with open("data.txt",'a') as file:
+                file.write(f"{website_data}\t|{email_data}\t|{password_data}")
+                file.write('\n')
+                # Deletes the password in the window when you added into the File.
+                website_entry.delete(0,'end')
+                password_entry.delete(0,'end')
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Manager")
@@ -40,7 +51,7 @@ email_entry = Entry(width=35)
 email_entry.grid(column=1, row=2, columnspan=2)
 
 #To Set the default entry on the Email Entry Field.
-email_entry.insert(0,"dileep@gmail.com")
+# email_entry.insert(0,"Your Email field to set a default email.")
 
 # Password Label, Entry and Generate Button
 password_label = Label(text="Password:")

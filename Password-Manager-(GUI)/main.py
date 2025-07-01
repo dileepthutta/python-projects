@@ -2,8 +2,10 @@ from random import choice,randint,shuffle
 import random
 from tkinter import *
 from tkinter import messagebox
-import pyperclip
+from webbrowser import open_new
 
+import pyperclip
+import json
 # ---------------------------- Generate PASSWORD ------------------------------- #
 #Password Generator
 def generate_password():
@@ -31,6 +33,13 @@ def add():
     email_data   = email_entry.get()
     password_data = password_entry.get()
 
+    new_data = {
+        website_data:{
+            "Email":email_data,
+            "Password":password_data
+        }
+    }
+
     #Check and return a popup button if any of the fields are Empty while saving the data.
     if len(website_data)==0 or len(email_data)==0 or len(password_data)==0:
         valid_or_not = messagebox.showinfo(title='Something went wrong!',message='Please don`t leave any fields empty!')
@@ -40,10 +49,22 @@ def add():
         is_ok = messagebox.askokcancel(title=website_data,message=f"These are the details entered: \nEmail: {email_data}"
                                        f"\nPassword: {password_data} \nIs it ok to save?")
         if is_ok:
-            #Creates and add the data into the File.
-            with open("data.txt",'a') as file:
-                file.write(f"{website_data}\t|{email_data}\t|{password_data}")
-                file.write('\n')
+            try:
+                with open('data.json','r')as data_file:
+                    # Reading old data
+                    data = json.load(data_file)
+            except FileNotFoundError:
+                #If the file doesn't exist.
+                with open('data.json','w') as data_file:
+                    json.dump(new_data,data_file,indent=4)
+            else:
+                #updaing old data with new data
+                data.update(new_data)
+
+                with open('data.json','w') as data_file:
+                    #Saving the updated data
+                    json.dump(data,data_file,indent=4)
+
                 # Deletes the password in the window when you added into the File.
                 website_entry.delete(0,'end')
                 password_entry.delete(0,'end')

@@ -65,48 +65,60 @@ def add():
                     #Saving the updated data
                     json.dump(data,data_file,indent=4)
 
-                # Deletes the password in the window when you added into the File.
-                website_entry.delete(0,'end')
-                password_entry.delete(0,'end')
+# Deletes the password in the window when you added into the File.
+            website_entry.delete(0,'end')
+            password_entry.delete(0,'end')
 
+
+def search():
+    website_data = website_entry.get()
+    try:
+        with open('data.json','r') as file_data:
+            data = json.load(file_data)
+            display = messagebox.showinfo(title=website_data,message=f'Email : {data[website_data]['Email']}\nPassword : {data[website_data]['Password']}')
+    # If file doesn't Exist or if user enters  invalid details to search.
+    except FileNotFoundError and KeyError:
+        error = messagebox.showerror(title='Error',message='No Data File Found.')
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Manager")
-window.config(padx=20, pady=20)
+window.config(padx=20, pady=20,background="black")
 
 # Canvas for logo
-canvas = Canvas(width=200, height=200, highlightthickness=0)
+canvas = Canvas(width=200, height=200, highlightthickness=0,background="black")
 logo = PhotoImage(file="logo.png")  # Make sure logo.png is in the same folder
 canvas.create_image(100, 100, image=logo)
 canvas.grid(column=1, row=0)
 
-# Website Label and Entry
-website_label = Label(text="Website:")
+# Website Label and Entry, Search Button
+website_label = Label(text="Website:",fg="white",bg="black")
 website_label.grid(column=0, row=1)
-website_entry = Entry(width=35)
-website_entry.grid(column=1, row=1, columnspan=2)
+website_entry = Entry(width=29)
+website_entry.grid(column=1, row=1)
 website_entry.focus()
+search_button = Button(text='Search',width=14,background="blue",command=search)
+search_button.grid(column=2,row=1)
 
 # Email/Username Label and Entry
-email_label = Label(text="Email/Username:")
+email_label = Label(text="Email/Username:",fg="white",bg="black")
 email_label.grid(column=0, row=2)
-email_entry = Entry(width=35)
-email_entry.grid(column=1, row=2, columnspan=2)
+email_entry = Entry(width=29)
+email_entry.grid(column=1, row=2)
 
 #To Set the default entry on the Email Entry Field.
 # email_entry.insert(0,"Your Email field to set a default email.")
 
 # Password Label, Entry and Generate Button
-password_label = Label(text="Password:")
+password_label = Label(text="Password:",fg="white",bg="black")
 password_label.grid(column=0, row=3)
-password_entry = Entry(width=21)
+password_entry = Entry(width=29)
 password_entry.grid(column=1, row=3)
-gen_pass_btn = Button(text="Generate Password",command=generate_password)
+gen_pass_btn = Button(text="Generate Password",command=generate_password,bg="#4CAF50")
 gen_pass_btn.grid(column=2, row=3)
 
 # Add Button
-add_button = Button(text="Add", width=36,command=add)
-add_button.grid(column=1, row=4, columnspan=2)
+add_button = Button(text="Add Data", width=10,command=add,fg="white",bg="red")
+add_button.grid(column=1, row=4)
 
 window.mainloop()

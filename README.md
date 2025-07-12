@@ -6,4 +6,4 @@
 
 These are the basic projects build using the Python fundamentals.
 
-- * [Auction-project] (https://github.com/thuttadileep/Auction-project)
+- * [Tip Calculator] (https://github.com/thuttadileep/tip-calculator/READ.MD)

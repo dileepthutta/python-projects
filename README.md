@@ -6,4 +6,4 @@
 
 These are the basic projects build using the Python fundamentals.
 
-- * [Tip Calculator] (https://github.com/thuttadileep/tip-calculator/READ.MD)
+- * [Tip Calculator] (https://github.com/thuttadileep/python-projects/tip-calculator/READ.MD)

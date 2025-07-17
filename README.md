@@ -6,4 +6,4 @@
 
 These are the basic projects build using the Python fundamentals.
 
-- * [Tip Calculator] (./Tip-Calculator/README.md)
+- * [Tip Calculator] (./tip-calculator/README.md)

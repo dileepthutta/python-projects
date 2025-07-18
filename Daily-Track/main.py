@@ -1,6 +1,5 @@
-from http.client import responses
-
 import requests
+from datetime import datetime
 
 pixela_endpoint = "https://pixe.la/v1/users"
 
@@ -16,7 +15,7 @@ user_params = {
     "notMinor" : "yes"
 }
 # Create your user account
-# response = requests.post(url=pixela_endpoint,json=user_params)
+response1 = requests.post(url=pixela_endpoint,json=user_params)
 
 
 
@@ -38,24 +37,49 @@ headers = {
     "X-USER-TOKEN" : TOKEN
 }
 
-# response = requests.post(
-#     url=graph_endpoint,
-#     json=graph_config,
-#     headers=headers
-# )
+response2 = requests.post(
+    url=graph_endpoint,
+    json=graph_config,
+    headers=headers
+)
 
 # Step3 Add a pixel into the Graph.
 
-post_pixel_end_point = f"{pixela_endpoint}/{USER_NAME}/graphs/{GRAPHID}"
+post_pixel_endpoint = f"{pixela_endpoint}/{USER_NAME}/graphs/{GRAPHID}"
+
+# Automatically get today's date.
+today = datetime.now()
 
 pixel_config = {
-    "date" : "20250718",
-    "quantity" : "10.5"
+    "date" : today.strftime("%Y%m%d"),
+    "quantity" : input("How many kilometers did you ran today ?:")
 }
 
-response = requests.post(
-    url=post_pixel_end_point,
+response3 = requests.post(
+    url=post_pixel_endpoint,
     json=pixel_config,
     headers=headers
 )
-print(response.text)
+
+
+# Step 4 Update the Pixel in the Graph.
+update_pixel_endpoint = f"{pixela_endpoint}/{USER_NAME}/graphs/{GRAPHID}/{today.strftime("%Y%m%d")}"
+
+update_data = {
+    "quantity" : "10.5"
+}
+
+response4 = requests.put(
+    url=update_pixel_endpoint,
+    json=update_data,
+    headers=headers
+)
+
+# Step 5 Delete a Pixel
+
+delete_pixel_endpoint = f"{pixela_endpoint}/{USER_NAME}/graphs/{GRAPHID}/{today.strftime("%Y%m%d")}"
+
+response5 = requests.delete(
+    url=delete_pixel_endpoint,
+    headers=headers
+)

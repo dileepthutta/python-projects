@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request
-import requests
+import requests,smtplib
 
 app = Flask(__name__)
 # API URL || To use the data.
@@ -32,8 +32,26 @@ def contact():
             "phone":phone,
             "message":message
         }
-        for item in data.values():
-            print(item)
+        # for item in data.values():
+        #     print(item)
+
+        # Sends email when the form is submitted.
+        my_email = ""  # ✅ Fill in your Gmail address
+        password = ""  # ✅ Use App Password, not regular password
+        recipient_email = ""  # ✅ Fill in the recipient's address
+        with smtplib.SMTP("smtp.gmail.com", port=587) as connection:  # ✅ Specify port 587
+            connection.starttls()  # ✅ Start TLS encryption
+            connection.login(user=my_email, password=password)  # ✅ Use correct login credentials
+            connection.sendmail(
+                from_addr=my_email,
+                to_addrs=recipient_email,
+                msg="Subject:Blog Page\n\n"
+                    f"Name :    {name}\n"
+                    f"Email :   {email}\n"
+                    f"Phone :   {phone}\n"
+                    f"Message:  {message}\n"
+            )
+
         return render_template("contact.html",msg_sent=True)
     else:
         return render_template("contact.html",msg_sent=False)
